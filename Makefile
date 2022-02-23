@@ -3,10 +3,15 @@
 PROGS := simpler-both
 OBJS := LibCamera.o main.o
 
-CXXFLAGS := -Wall -g -std=c++17 -I/usr/local/include/libcamera
-CXXLDFLAGS := -L/usr/local/lib -lcamera-base -lcamera -lopencv_core -lopencv_highgui
+## for self-built libcamera version
+#CXXFLAGS := -Wall -g -std=c++17 -I/usr/local/include/libcamera 
+#CXXLDFLAGS := -L/usr/local/lib -lcamera-base -lcamera -lopencv_core -lopencv_highgui
 
-## future no opencv version
+## for stock version
+CXXFLAGS := -Wall -g -std=c++17 -I/usr/include/libcamera -I/usr/include/opencv4
+CXXLDFLAGS := -lcamera-base -lcamera -lopencv_core -lopencv_highgui
+
+## future no-opencv version
 # NCVLDFLAGS := -L/usr/local/lib -lcamera-base -lcamera
 
 all : ${PROGS}

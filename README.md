@@ -15,8 +15,13 @@ https://forum.arducam.com/t/how-to-use-code-to-access-libcamera-c-python/2028
 OpenCV pulling and displaying 1/N buffers so 40FPS = 8 FPS onscreen low-latency.
 Buffer size adjustable per mode, as is resolution, and camera controls.
 
+# Pre-Requirements
+* # Install bullseye (64-bit is what I'm using) #
+* # get network working #
+* sudo apt install libcamera-dev libopencv-core-dev libopencv-highgui-dev
+* # get camera working #  libcamera-hello --verbose
 
-git clone ###
+git clone https://github.com/atalkingegg/simpler-both.git
 cd simpler-both
 make
 simpler-both

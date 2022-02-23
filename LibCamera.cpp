@@ -9,19 +9,29 @@ int LibCamera::initCamera(camera_mode camera_modes[])
     int ret;
     cm = std::make_unique<CameraManager>();
     ret = cm->start();
-    if (ret){
-        std::cout << "Failed to start camera manager: "
+    if (ret)
+    {
+        std::cerr << "ERROR: Failed to start camera manager: "
               << ret << std::endl;
         return ret;
     }
+    if (cm->cameras().size() == 0)
+    {
+        std::cerr << "ERROR: No cameras found!" << std::endl;
+        return -1;
+    }
+
     std::string cameraId = cm->cameras()[0]->id();
+
     camera_ = cm->get(cameraId);
-    if (!camera_) {
+    if (!camera_)
+    {
         std::cerr << "Camera " << cameraId << " not found" << std::endl;
         return 1;
     }
 
-    if (camera_->acquire()) {
+    if (camera_->acquire())
+    {
         std::cerr << "Failed to acquire camera " << cameraId
               << std::endl;
         return 1;
