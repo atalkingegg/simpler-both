@@ -19,7 +19,7 @@ Buffer size adjustable per mode, as is resolution, and camera controls.
 * Install bullseye (latest 64-bit version is what I'm using).
 * Get network working.
 * "sudo apt install libcamera-dev libopencv-core-dev libopencv-highgui-dev"
-* Get camera working - "libcamera-hello --verbose"
+* Get camera working - "libcamera-hello --verbose" - code currently set up for IMX477 cameras.
 
 # To build and run:
 
