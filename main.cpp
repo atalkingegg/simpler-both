@@ -1,28 +1,27 @@
-#include <opencv2/imgproc.hpp>
 #include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 
 #include "LibCamera.h"
 #include "flat_libcamera.h"
 
-// xres, yres, buf#, s_role, p_format, color_s, mfps, bright, cont, gain, time, wb_blue, wb_red, rot, ... 
 
+// These all work on IMX477 sensor based cameras.
+// xres, yres, buf#, s_role, p_format, color_s, mfps, bright, cont, gain, time, wb_blue, wb_red, rot, ...
 camera_mode camera_modes[] = {
-	{1152, 864, 4, LSR_VIEWFINDER, LPF_RGB888, LCS_REC709, 60, 1100, 1050, 1015, 40000, 1205, 1210, 0},  
-	{640, 480, 3, LSR_VIDEO_RECORDING, LPF_RGB888, LCS_REC709, 60, 1101, 1051, 1014, 40000, 1204, 1211, 0},  
-	{800, 600, 4, LSR_VIDEO_RECORDING, LPF_RGB888, LCS_REC709, 60, 1102, 1052, 1013, 40000, 1203, 1212, 0},  
+	{1152, 864, 4, LSR_VIEWFINDER, LPF_RGB888, LCS_REC709, 60, 1100, 1050, 1015, 40000, 1205, 1210, 0},
+	{640, 480, 3, LSR_VIDEO_RECORDING, LPF_RGB888, LCS_REC709, 60, 1101, 1051, 1014, 40000, 1204, 1211, 0},
+	{800, 600, 4, LSR_VIDEO_RECORDING, LPF_RGB888, LCS_REC709, 60, 1102, 1052, 1013, 40000, 1203, 1212, 0},
 	{4032, 3040, 1, LSR_STILL_CAPTURE, LPF_BGR888, LCS_REC709, 60, 1005, 1010, 1051, 40000, 1250, 1251, 0},
 	{0}
 	};
 
-// using namespace cv;
-
 int main()
 {
     std::cout << "OpenCV version: " << CV_VERSION << std::endl;
+    auto start_time = std::chrono::system_clock::now();
+    auto end_time = std::chrono::system_clock::now();
+    int elapsed_milliseconds;
 
-    time_t start_time = time(0);
     int frame_count = 0, j;
     LibCamera cam;
 
@@ -49,11 +48,13 @@ int main()
 
             cv::imshow("simpler-both", im);
 
-            if ((time(0) - start_time) >= 1)
+	    end_time = std::chrono::system_clock::now();
+	    elapsed_milliseconds = std::chrono::duration_cast<std::chrono::milliseconds> (end_time - start_time).count();
+            if (elapsed_milliseconds >= 1000)
 	    {
                 printf("fps: %d\n", frame_count);
                 frame_count = 0;
-                start_time = time(0);
+                start_time = end_time;
             }
             cam.returnFrameBuffer(frameData);
 
@@ -68,6 +69,9 @@ int main()
                 cam.stopCamera();
 		cv::destroyAllWindows();
                 cam.startCamera(current_mode);
+		end_time = std::chrono::system_clock::now();
+		start_time = end_time;
+                frame_count = 0;
  	    }
             if (key == '1')
 	    {
@@ -75,6 +79,9 @@ int main()
                 cam.stopCamera();
 		cv::destroyAllWindows();
                 cam.startCamera(current_mode);
+		end_time = std::chrono::system_clock::now();
+		start_time = end_time;
+                frame_count = 0;
  	    }
             if (key == '2')
 	    {
@@ -82,9 +89,13 @@ int main()
                 cam.stopCamera();
 		cv::destroyAllWindows();
                 cam.startCamera(current_mode);
+		end_time = std::chrono::system_clock::now();
+		start_time = end_time;
+                frame_count = 0;
  	    }
             if (key == 'c' or key == 'C')
 	    {
+		start_time = std::chrono::system_clock::now();
 		std::cout << "Capture an image!" << std::endl;
                 cam.stopCamera();
                 cam.startCamera(3);
@@ -93,6 +104,11 @@ int main()
                 cam.returnFrameBuffer(frameData);
                 cam.stopCamera();
                 cam.startCamera(current_mode);
+		elapsed_milliseconds = std::chrono::duration_cast<std::chrono::milliseconds> (end_time - start_time).count();
+		std::cout << "Video to Capture to Video Time (ms): " << elapsed_milliseconds << std::endl;
+		end_time = std::chrono::system_clock::now();
+		start_time = end_time;
+                frame_count = 0;
  	    }
 
         }
