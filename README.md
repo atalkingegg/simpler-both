@@ -11,8 +11,9 @@ https://forum.arducam.com/t/how-to-use-code-to-access-libcamera-c-python/2028
 * now with Makefile rather than cmake.
 * replaced config and control with C++ vectors and a flat loading table.
 * controls for each mode applied on start of each config mode.
+* frame buffers allocated once and reused (!) for all configurations.
 
-OpenCV pulling and displaying 1/N buffers so 40FPS = 8 FPS onscreen low-latency.
+OpenCV pulling and displaying 1/N buffers so 40FPS = 10 FPS onscreen low-latency.
 Buffer size adjustable per mode, as is resolution, and camera controls.
 
 # Pre-Requirements:
@@ -32,7 +33,7 @@ make
 simpler-both
 
 # Runtime Usage
-In window, keys "0", "1", "2" = change video resolutions on the fly.
+In window, keys "1", "2", "3" = change video resolutions on the fly.
 
 Keys "C" or "c" = switches to 4032x3040 and captures a frame (not saveing to disk just yet), then switches back to video.
 
