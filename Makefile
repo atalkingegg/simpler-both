@@ -7,7 +7,7 @@ OBJS := LibCamera.o main.o
 #CXXFLAGS := -Wall -g -std=c++17 -I/usr/local/include/libcamera 
 #CXXLDFLAGS := -L/usr/local/lib -lcamera-base -lcamera -lopencv_core -lopencv_highgui
 
-## for stock version
+## for stock system version
 CXXFLAGS := -Wall -g -std=c++17 -I/usr/include/libcamera -I/usr/include/opencv4
 CXXLDFLAGS := -lcamera-base -lcamera -lopencv_core -lopencv_highgui
 
