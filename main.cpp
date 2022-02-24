@@ -41,10 +41,13 @@ int main()
                 cam.returnFrameBuffer(frameData);
                 frame_count++;
 	    }
-            while (!cam.readFrame(&frameData)) {}; // and a fourth.
+
+            while (!cam.readFrame(&frameData)) {}; // and finally the one to use.
             frame_count++;
 
             cv::Mat im(camera_modes[current_mode].height, camera_modes[current_mode].width, CV_8UC3, frameData.imageData);
+
+            cam.returnFrameBuffer(frameData);
 
             cv::imshow("simpler-both", im);
 
@@ -56,7 +59,6 @@ int main()
                 frame_count = 0;
                 start_time = end_time;
             }
-            cam.returnFrameBuffer(frameData);
 
 	    // ## Note: don't restart camera until returnFrameBuffer is done, otherwise segfault.
 
@@ -104,9 +106,9 @@ int main()
                 cam.returnFrameBuffer(frameData);
                 cam.stopCamera();
                 cam.startCamera(current_mode);
+		end_time = std::chrono::system_clock::now();
 		elapsed_milliseconds = std::chrono::duration_cast<std::chrono::milliseconds> (end_time - start_time).count();
 		std::cout << "Video to Capture to Video Time (ms): " << elapsed_milliseconds << std::endl;
-		end_time = std::chrono::system_clock::now();
 		start_time = end_time;
                 frame_count = 0;
  	    }

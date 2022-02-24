@@ -75,12 +75,16 @@ class LibCamera {
         std::vector<ControlList> controls_;
 
         std::unique_ptr<FrameBufferAllocator> allocator_;
+
+	// ## Now trying to keep a vector of each mode's vector of requests.
+        // std::vector<std::vector<std::unique_ptr<Request>>> requests_;
+	// ## no, that's not working yet. Back to one set.
         std::vector<std::unique_ptr<Request>> requests_;
+
         // std::map<std::string, Stream *> stream_;
         std::map<int, std::pair<void *, unsigned int>> mappedBuffers_;
 
         std::queue<Request *> requestQueue;
-
 
         std::mutex control_mutex_;
         std::mutex camera_stop_mutex_;
