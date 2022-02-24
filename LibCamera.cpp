@@ -309,21 +309,16 @@ void LibCamera::stopCamera()
     while (!requestQueue.empty())
         requestQueue.pop();
 
-// Note: don't do this for this test.
-    // requests_.clear();
-    // allocator_.reset();
-
-    // ## Note: we clear copy of controls on startups, but reuse them for new starts!
-    // controls_.clear();
 }
 
 void LibCamera::closeCamera()
 {
+    requests_.clear();
+    allocator_.reset();
+    controls_.clear();
     if (camera_acquired_)
         camera_->release();
     camera_acquired_ = false;
-
     camera_.reset();
-
     cm.reset();
 }
